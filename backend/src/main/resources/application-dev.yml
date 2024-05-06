@@ -1,0 +1,46 @@
+server:
+  port: 8090
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bsn
+    username: tapsdoc
+    password: taps1234
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database: postgresql
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 465
+    username: tapsdoc23@gmail.com
+    password: yjzbxqlxcyjcjgqn
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
+            trust: "*"
+          starttls:
+            enable: true
+    protocol: smtp
+
+application:
+  security:
+    jwt:
+      secret-key: 504a7552deaf290ae8e59574956d984fac6e05b831312288a78ae244b0660d55504a7552deaf290ae8e59574956d984fac6e05b831312288a78ae244b0660d55
+      expiration: 86400000
+      refresh-token:
+        expiration: 604800000
+
+  mailing:
+    frontend:
+      activation-url: http://localhost:4200/activate-account

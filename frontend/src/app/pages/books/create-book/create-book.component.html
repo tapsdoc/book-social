@@ -1,0 +1,127 @@
+<div *ngIf="type !== ''" class="flex mt-10 justify-center fixed top-0 left-3 w-full">
+	<app-snack-bar
+		[type]="type"
+		[message]="message"
+	></app-snack-bar>
+</div>
+<div
+	*ngIf="isOpen"
+	class="overflow-x-hidden hide-scrollbar fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex"
+>
+	<div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
+		<!-- Modal content -->
+		<div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
+			<!-- Modal header -->
+			<div class="flex items-start justify-between border-b mb-4 border-solid border-blueGray-200 rounded-t">
+				<p class="text-lg font-semibold text-gray-900 dark:text-white">
+					{{ editMode ? 'Update Book' : 'Add Book' }}
+				</p>
+				<button
+					type="button"
+					class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+					(click)="onClose()"
+				>
+					<svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+					<span class="sr-only">Close modal</span>
+				</button>
+			</div>
+
+			<figure class="relative h-auto max-w-xs transition-all duration-300 cursor-pointer filter">
+				<img
+					class="rounded-lg"
+					[src]="picture || 'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/content-gallery-3.png'"
+					alt="image description">
+			</figure>
+			<input
+				(change)="onFileSelected($event)"
+				class="block my-3 w-64 md:w-auto text-sm text-gray-900 disabled:cursor-not-allowed border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+				aria-describedby="file_input_help"
+				id="file_input"
+				type="file"
+				accept="image/*"
+				[disabled]="editMode"
+			>
+			<p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG or AFIF (MAX. 800x400px).</p>
+			<!-- Modal body -->
+			<form (ngSubmit)="onSubmit()" [formGroup]="form">
+				<div class="relative z-0 w-full group mb-6">
+					<div>
+						<input
+							type="text"
+							id="title"
+							class="block py-1 px-0 w-full read-only:cursor-not-allowed disabled:cursor-not-allowed text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+							placeholder="Title"
+							formControlName="title"
+							[value]="editMode ? book.title : ''"
+							[readonly]="editMode"
+						/>
+					</div>
+				</div>
+				<div class="grid gap-4 mb-6 sm:grid-cols-2">
+					<div>
+						<input
+							type="text"
+							id="author"
+							class="block py-1 px-0 w-full read-only:cursor-not-allowed disabled:cursor-not-allowed text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+							placeholder="Author"
+							formControlName="author"
+							[value]="editMode ? book.author : ''"
+							[readonly]="editMode"
+						/>
+					</div>
+					<div>
+						<input
+							type="text"
+							id="isbn"
+							class="block py-1 px-0 w-full read-only:cursor-not-allowed disabled:cursor-not-allowed text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+							placeholder="ISBN"
+							formControlName="isbn"
+							[value]="editMode ? book.isbn : ''"
+							[readonly]="editMode"
+						/>
+					</div>
+					<div class="sm:col-span-2">
+						<textarea
+							formControlName="synopsis"
+							id="synopsis"
+							rows="4"
+							class="block p-2.5 w-full read-only:cursor-not-allowed disabled:cursor-not-allowed text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+							placeholder="Write book synopsis here"
+							[value]="editMode ? book.synopsis : ''"
+							[readonly]="editMode"
+						></textarea>
+					</div>
+					<div>
+						<label class="inline-flex items-center cursor-pointer">
+							<input
+								type="checkbox"
+								formControlName="sharable"
+								class="sr-only peer"
+							>
+							<div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+							<span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Share me</span>
+						</label>
+					</div>
+				</div>
+				<div class="space-x-3 flex flex-row justify-between my-2">
+					<button
+						type="submit"
+						[disabled]="form.invalid"
+						[ngClass]="editMode ? 'px-9' : 'px-10'"
+						class="text-white inline-flex items-center bg-primary-700 disabled:bg-primary-200 hover:bg-primary-800 font-medium rounded-lg text-sm py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700"
+					>
+						{{ editMode ? 'Update' : 'Save' }}
+					</button>
+					<button
+						type="button"
+						(click)="onClose()"
+						class="text-gray-500 hover:text-white border border-gray-300 hover:bg-gray-300 font-medium px-5 py-2.5 text-center me-2 dark:border-gray-600 dark:text-gray-400 rounded-lg text-sm ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+					>
+						<svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+						Discard
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

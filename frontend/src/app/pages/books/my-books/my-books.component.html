@@ -1,0 +1,75 @@
+<div *ngIf="type !== ''" class="flex mt-10 justify-center fixed top-0 left-3 w-full">
+	<app-snack-bar
+		[type]="type"
+		[message]="message"
+	></app-snack-bar>
+</div>
+
+<section class="bg-gray-50 dark:bg-gray-900 py-3 sm:py-5">
+	<p class="font-semibold text-gray-950 text-2xl text-center">My Books</p>
+	<div class="max-w-screen-2xl">
+		<div class="relative overflow-hidden dark:bg-gray-800 sm:rounded-lg">
+			<div class="flex flex-col px-4 py-3 space-y-3 min-[900px]:flex-row min-[900px]:items-center min-[900px]:justify-between min-[900px]:space-y-0 min-[900px]:space-x-4">
+				<div class="flex items-center flex-1 space-x-4">
+					<p>
+						<span class="text-gray-900 text-lg">Total: </span>
+						<span class="dark:text-white text-lg">{{ this.totalElements }}</span>
+					</p>
+				</div>
+				<div class="flex flex-col flex-shrink-0 space-y-3 md:flex-row md:items-center lg:justify-end md:space-y-0 md:space-x-3">
+					<button
+						(click)="toggle(true)"
+						type="button"
+						id="addBook"
+						class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white rounded-lg bg-primary-700 hover:bg-primary-800 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none"
+					>
+						<svg class="w-[22px] h-[22px] mr-2" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+							<path clip-rule="evenodd" fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
+						</svg>
+						Add Book
+					</button>
+					<button
+						type="button"
+						(click)="onReload()"
+						class="flex items-center justify-center flex-shrink-0 px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-primary-700 focus:z-10 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+							<svg class="w-[22px] h-[22px] mr-2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+							</svg>
+						Refresh
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<app-create-book
+		(showModal)="toggle($event)"
+		[isOpen]="showModal"
+		[editMode]="false"
+	></app-create-book>
+	<div
+		*ngIf="!loading"
+		class="grid items-center justify-between grid-cols-2 max-[618px]:grid-cols-1 sm:max-md:grid-cols-2 md:max-lg:grid-cols-3 xl:grid-cols-4 px-4 md:max-lg:ml-2 min-[450px]:max-[533px]:ml-[124px] min-[534px]:max-[630px]:ml-[88px] lg:ml-0 max-sm:ml-1.5 gap-4 my-4">
+		<app-book-card
+			*ngFor="let book of books"
+			[book]="book"
+			[manage]="true"
+			(archive)="onArchiveBook($event)"
+			(share)="onShare($event)"
+		></app-book-card>
+	</div>
+	<mat-paginator
+		*ngIf="!loading && totalPages > 1"
+		class="justify-end items-end px-4 mx-4"
+		(page)="handlePageEvent($event)"
+		[pageIndex]="pageIndex"
+		[pageSize]="pageSize"
+		[hidePageSize]="true"
+		[showFirstLastButtons]="true"
+		[length]="totalElements"
+		aria-label="Select page"
+	></mat-paginator>
+	<div class="text-center my-4">
+		<app-loading-spinner *ngIf="loading"></app-loading-spinner>
+	</div>
+</section>
+

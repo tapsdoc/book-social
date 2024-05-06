@@ -1,0 +1,263 @@
+<nav class="bg-white">
+	<div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+		<div class="relative flex h-16 items-center justify-between">
+			<div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+				<!-- Mobile menu button-->
+				<button
+					(click)="toggle()"
+					type="button"
+					class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none"
+					aria-controls="mobile-menu"
+					aria-expanded="false">
+					<span class="absolute -inset-0.5"></span>
+					<span class="sr-only">Open main menu</span>
+					<svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+					</svg>
+					<svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+					</svg>
+				</button>
+			</div>
+			<div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+				<div class="flex flex-shrink-0 items-center">
+					<img
+						class="h-8 w-auto"
+						ngSrc="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+						alt="Your Company"
+						height="32"
+						width="32"
+					>
+				</div>
+				<div class="hidden sm:ml-6 sm:block">
+					<div class="flex space-x-4">
+						<a routerLink="/books/list" routerLinkActive="bg-blue-700 text-white" class="hover:bg-blue-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Books</a>
+						<a routerLink="/books/my-books" routerLinkActive="bg-blue-700 text-white" class="hover:bg-blue-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">My Books</a>
+						<a routerLink="/books/waiting-list" routerLinkActive="bg-blue-700 text-white" class="hover:bg-blue-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">My Waiting List</a>
+						<a routerLink="/books/returned" routerLinkActive="bg-blue-700 text-white" class="hover:bg-blue-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Returned Books</a>
+						<a routerLink="/books/borrowed" routerLinkActive="bg-blue-700 text-white" class="hover:bg-blue-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Borrowed Books</a>
+					</div>
+				</div>
+			</div>
+			<div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+				<!-- Profile dropdown -->
+				<div class="relative ml-3">
+					<div>
+						<button
+							(click)="toggleUserMenu()"
+							type="button"
+							class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none"
+							id="user-menu-button"
+							aria-expanded="false"
+							aria-haspopup="true"
+						>
+							<span class="absolute -inset-1.5"></span>
+							<span class="sr-only">Open user menu</span>
+							<img
+								class="rounded-full"
+								ngSrc="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+								height="32"
+								width="32"
+								alt="">
+						</button>
+					</div>
+
+					<!--
+						Dropdown menu, show/hide based on menu state.
+					-->
+					<div
+						[ngClass]="isUserMenuOpen ? 'block' : 'hidden'"
+						class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+						role="menu"
+						aria-orientation="vertical"
+						aria-labelledby="user-menu-button"
+						tabindex="-1"
+					>
+						<!-- Active: "bg-gray-100", Not Active: "" -->
+						<div class="cursor-pointer block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0"> Tapiwa </div>
+						<a routerLink="/books" (click)="toggleUserMenu()" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Books</a>
+						<a (click)="onLogout()" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div [ngClass]="isOpen ? 'block' : 'hidden'">
+		<div class="space-y-1 px-2 pb-3 pt-2">
+			<a href="#" class="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page">Dashboard</a>
+			<a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Team</a>
+			<a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Projects</a>
+			<a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Calendar</a>
+		</div>
+	</div>
+</nav>
+
+
+
+<!--<nav class="bg-white border-gray-200 dark:bg-gray-900">-->
+<!--	<div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto px-2 py-2">-->
+<!--		<a href="https://flowbite.com/" class="flex items-center space-x-3 rtl:space-x-reverse">-->
+<!--			<img-->
+<!--				ngSrc="https://flowbite.com/docs/images/logo.svg"-->
+<!--				class="h-8 w-8 rounded-full"-->
+<!--				alt="logo"-->
+<!--				width="32"-->
+<!--				height="32"-->
+<!--			/>-->
+<!--			<span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">SBN</span>-->
+<!--		</a>-->
+<!--		<div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">-->
+<!--			<button-->
+<!--				type="button"-->
+<!--				class="flex text-sm bg-gray-800 rounded-full md:me-0"-->
+<!--				id="user-menu-button"-->
+<!--				aria-expanded="false"-->
+<!--				data-dropdown-toggle="user-dropdown"-->
+<!--				data-dropdown-placement="bottom"-->
+<!--			>-->
+<!--				<span class="sr-only">Open user menu</span>-->
+<!--				<img-->
+<!--					class="w-8 h-8 rounded-full"-->
+<!--					ngSrc="https://flowbite.com/docs/images/people/profile-picture-3.jpg"-->
+<!--					alt="user photo"-->
+<!--					width="32"-->
+<!--					height="32"-->
+<!--				>-->
+<!--			</button>-->
+<!--			&lt;!&ndash; Dropdown menu &ndash;&gt;-->
+<!--			<div-->
+<!--				class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"-->
+<!--				id="user-dropdown"-->
+<!--			>-->
+<!--				<div class="px-4 py-3">-->
+<!--					<span class="block text-sm text-gray-900 dark:text-white"> {{ user.name }}</span>-->
+<!--					<span class="block text-sm  text-gray-500 truncate dark:text-gray-400">{{ user.name }}&#64;example.com</span>-->
+<!--				</div>-->
+<!--				<ul class="py-2" aria-labelledby="user-menu-button">-->
+<!--					<li>-->
+<!--						<button type="button" class="w-full text-start cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</button>-->
+<!--					</li>-->
+<!--					<li>-->
+<!--						<button type="button" class="w-full text-start cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Settings</button>-->
+<!--					</li>-->
+<!--					<li>-->
+<!--						<button type="button" class="w-full text-start cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Earnings</button>-->
+<!--					</li>-->
+<!--					<li>-->
+<!--						<button type="button" (click)="onLogout()" class="w-full cursor-pointer block px-4 py-2 text-start text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</button>-->
+<!--					</li>-->
+<!--				</ul>-->
+<!--			</div>-->
+<!--			<button-->
+<!--				data-collapse-toggle="navbar-user"-->
+<!--				type="button"-->
+<!--				class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none dark:text-gray-400 dark:hover:bg-gray-700"-->
+<!--				aria-controls="navbar-user"-->
+<!--				aria-expanded="false"-->
+<!--				(click)="toggle()"-->
+<!--			>-->
+<!--				<span class="sr-only">Open main menu</span>-->
+<!--				<svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">-->
+<!--					<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>-->
+<!--				</svg>-->
+<!--			</button>-->
+<!--		</div>-->
+<!--		<div-->
+<!--			[ngClass]="isOpen ? 'block' : 'hidden'"-->
+<!--			id="navbar-user"-->
+<!--			class="flex flex-col-reverse md:flex-row justify-end items-end w-full md:flex md:w-auto md:order-1"-->
+<!--		>-->
+<!--			<div class="items-end justify-end">-->
+<!--				<ul class="flex flex-col w-full font-medium px-2 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">-->
+<!--					<li routerLinkActive="px-2 text-blue-700" class="flex items-center hover:bg-gray-100 md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:hover:bg-gray-700 md:dark:hover:bg-transparent dark:border-gray-700">-->
+<!--						<svg routerLinkActive="bg-blue-700" class="w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">-->
+<!--							<path fill-rule="evenodd" d="M11.293 3.293a1 1 0 0 1 1.414 0l6 6 2 2a1 1 0 0 1-1.414 1.414L19 12.414V19a2 2 0 0 1-2 2h-3a1 1 0 0 1-1-1v-3h-2v3a1 1 0 0 1-1 1H7a2 2 0 0 1-2-2v-6.586l-.293.293a1 1 0 0 1-1.414-1.414l2-2 6-6Z" clip-rule="evenodd"/>-->
+<!--						</svg>-->
+<!--						<a-->
+<!--							(click)="toggle()"-->
+<!--							routerLink="/books/list"-->
+<!--							routerLinkActive="text-blue-700"-->
+<!--							class="block py-2 px-3 text-md rounded md:p-0 dark:text-white dark:hover:text-white">-->
+<!--							Home-->
+<!--						</a>-->
+<!--					</li>-->
+<!--					<li routerLinkActive="px-2 text-blue-700" class="flex items-center hover:bg-gray-100 md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:hover:bg-gray-700 md:dark:hover:bg-transparent dark:border-gray-700">-->
+<!--						<svg routerLinkActive="bg-blue-700" class="w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">-->
+<!--							<path fill-rule="evenodd" d="M6 2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h12a1 1 0 1 0 0-2h-2v-2h2a1 1 0 0 0 1-1V4a2 2 0 0 0-2-2h-8v16h5v2H7a1 1 0 1 1 0-2h1V2H6Z" clip-rule="evenodd"/>-->
+<!--						</svg>-->
+<!--						<a-->
+<!--							(click)="toggle()"-->
+<!--							routerLink="/books/my-books"-->
+<!--							routerLinkActive="text-blue-700"-->
+<!--							class="block py-2 px-3 text-gray-900 text-md rounded md:p-0 dark:text-white dark:hover:text-white">-->
+<!--							My Books-->
+<!--						</a>-->
+<!--					</li>-->
+<!--					<li routerLinkActive="px-2 text-blue-700" class="flex items-center hover:bg-gray-100 md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:hover:bg-gray-700 md:dark:hover:bg-transparent dark:border-gray-700">-->
+<!--						<svg routerLinkActive="bg-blue-700" class="w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">-->
+<!--							<path d="m12.75 20.66 6.184-7.098c2.677-2.884 2.559-6.506.754-8.705-.898-1.095-2.206-1.816-3.72-1.855-1.293-.034-2.652.43-3.963 1.442-1.315-1.012-2.678-1.476-3.973-1.442-1.515.04-2.825.76-3.724 1.855-1.806 2.201-1.915 5.823.772 8.706l6.183 7.097c.19.216.46.34.743.34a.985.985 0 0 0 .743-.34Z"/>-->
+<!--						</svg>-->
+<!--						<a-->
+<!--							(click)="toggle()"-->
+<!--							routerLinkActive="text-blue-700"-->
+<!--							routerLink="/books/waiting-list"-->
+<!--							class="block py-2 px-3 text-gray-900 text-md rounded md:p-0 dark:text-white dark:hover:text-white">-->
+<!--							My Wishlist-->
+<!--						</a>-->
+<!--					</li>-->
+<!--					<li routerLinkActive="px-2 text-blue-700" class="flex items-center hover:bg-gray-100 md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:hover:bg-gray-700 md:dark:hover:bg-transparent dark:border-gray-700">-->
+<!--						<svg routerLinkActive="bg-blue-700" class="w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">-->
+<!--							<path fill-rule="evenodd" d="M11.293 3.293a1 1 0 0 1 1.414 0l6 6 2 2a1 1 0 0 1-1.414 1.414L19 12.414V19a2 2 0 0 1-2 2h-3a1 1 0 0 1-1-1v-3h-2v3a1 1 0 0 1-1 1H7a2 2 0 0 1-2-2v-6.586l-.293.293a1 1 0 0 1-1.414-1.414l2-2 6-6Z" clip-rule="evenodd"/>-->
+<!--						</svg>-->
+<!--						<a-->
+<!--							(click)="toggle()"-->
+<!--							routerLinkActive="text-blue-700"-->
+<!--							routerLink="/books/returned"-->
+<!--							class="block py-2 px-3 text-gray-900 text-md rounded md:p-0 dark:text-white dark:hover:text-white">-->
+<!--							Returned Books-->
+<!--						</a>-->
+<!--					</li>-->
+<!--					<li routerLinkActive="px-2 text-blue-700" class="flex items-center hover:bg-gray-100 md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:hover:bg-gray-700 md:dark:hover:bg-transparent dark:border-gray-700">-->
+<!--						<svg routerLinkActive="bg-blue-700" class="w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">-->
+<!--							<path fill-rule="evenodd" d="M11 4.717c-2.286-.58-4.16-.756-7.045-.71A1.99 1.99 0 0 0 2 6v11c0 1.133.934 2.022 2.044 2.007 2.759-.038 4.5.16 6.956.791V4.717Zm2 15.081c2.456-.631 4.198-.829 6.956-.791A2.013 2.013 0 0 0 22 16.999V6a1.99 1.99 0 0 0-1.955-1.993c-2.885-.046-4.76.13-7.045.71v15.081Z" clip-rule="evenodd"/>-->
+<!--						</svg>-->
+<!--						<a-->
+<!--							(click)="toggle()"-->
+<!--							routerLinkActive="text-blue-700"-->
+<!--							routerLink="/books/borrowed"-->
+<!--							class="block py-2 px-3 text-gray-900 text-md rounded md:p-0 dark:text-white dark:hover:text-white">-->
+<!--							Borrowed Books-->
+<!--						</a>-->
+<!--					</li>-->
+<!--					<li>-->
+<!--						<div class="flex md:order-2">-->
+<!--							<button-->
+<!--								(click)="toggle()"-->
+<!--								type="button"-->
+<!--								data-collapse-toggle="navbar-search"-->
+<!--								aria-controls="navbar-search"-->
+<!--								aria-expanded="false"-->
+<!--								class="md:hidden text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 me-1"-->
+<!--							>-->
+<!--								<svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">-->
+<!--									<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>-->
+<!--								</svg>-->
+<!--								<span class="sr-only">Search</span>-->
+<!--							</button>-->
+<!--							<div class="relative hidden md:block">-->
+<!--								<div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">-->
+<!--									<svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">-->
+<!--										<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>-->
+<!--									</svg>-->
+<!--									<span class="sr-only">Search icon</span>-->
+<!--								</div>-->
+<!--								<input type="text" id="navbar-search" class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search...">-->
+<!--							</div>-->
+<!--						</div>-->
+<!--					</li>-->
+<!--				</ul>-->
+<!--			</div>-->
+<!--		</div>-->
+<!--	</div>-->
+<!--</nav>-->

@@ -1,0 +1,18 @@
+spring:
+  profiles:
+    active: dev
+  servlet:
+    multipart:
+      max-file-size: 50MB
+
+springdoc:
+  default-produces-media-type: application/json
+
+server:
+  servlet:
+    context-path: /api/v1/
+
+oci:
+  namespace: axvk2dk8u2pq
+  bucket: demo-bucket
+  region: https://objectstorage.af-johannesburg-1.oraclecloud.com

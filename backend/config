@@ -1,0 +1,6 @@
+[DEFAULT]
+user=ocid1.user.oc1..aaaaaaaay5dv5aryywkqehtkcisipp62haeo3ozm6mpctbxpadqsju3ig4tq
+fingerprint=2b:9d:1f:53:fb:40:2d:c8:c0:fb:1f:c9:9e:f4:a0:96
+tenancy=ocid1.tenancy.oc1..aaaaaaaarhrskk7wcdyqs57haki64ywiltnzc435iqqhizjdaoua7bblrekq
+region=af-johannesburg-1
+key_file=tapsdoc23@gmail.com_2024-04-23T06_04_51.609Z.pem

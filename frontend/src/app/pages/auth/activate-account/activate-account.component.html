@@ -1,0 +1,30 @@
+<div class="code-container" *ngIf="submitted else codeForm">
+	<div class="activate-message" *ngIf="isOkay else activationError">
+		<h2>Activation successful!</h2>
+		<p>{{ message }}</p>
+		<button class="rounded-md text-white bg-blue-700 hover:bg-blue-800 p-2" (click)="redirectToLogin()">Login</button>
+	</div>
+
+	<ng-template #activationError>
+		<div class="activate-error">
+			<h2>Activation Failed!</h2>
+			<p>{{ message }}</p>
+			<button class="rounded-md text-white bg-blue-700 hover:bg-blue-800 p-2" (click)="submitted = false">Try again</button>
+		</div>
+	</ng-template>
+</div>
+
+<ng-template #codeForm>
+	<div class="code-container">
+		<div class="text-center" style="width: 400px">
+			<p class="text-center mb-4 text-md dark:text-white">Please introduce the 6 digit code we sent via email</p>
+			<code-input
+				class=" w-96 flex space-x-2"
+				[isCodeHidden]="false"
+				[codeLength]="6"
+				[code]="'number'"
+				(codeCompleted)="onCodeCompleted($event)"
+			></code-input>
+		</div>
+	</div>
+</ng-template>

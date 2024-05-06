@@ -1,0 +1,30 @@
+<div *ngIf="type !== ''" class="flex mt-10 justify-center fixed top-0 left-3 w-full">
+	<app-snack-bar
+		[type]="type"
+		[message]="message"
+	></app-snack-bar>
+</div>
+<div
+	*ngIf="!loading"
+	class="grid items-center justify-between grid-cols-2 max-[618px]:grid-cols-1 sm:max-md:grid-cols-2 md:max-lg:grid-cols-3 xl:grid-cols-4 px-4 md:max-lg:ml-2 min-[450px]:max-[533px]:ml-[124px] min-[534px]:max-[630px]:ml-[88px] lg:ml-0 max-sm:ml-1.5 gap-4 my-4">
+	<app-book-card
+		*ngFor="let book of books"
+		[book]="book"
+		[manage]="false"
+		(borrow)="onBorrow($event)"
+	></app-book-card>
+</div>
+<mat-paginator
+	*ngIf="!loading && totalPages > 1"
+	class="justify-end items-end px-4 mx-4"
+	(page)="handlePageEvent($event)"
+	[pageIndex]="pageIndex"
+	[pageSize]="pageSize"
+	[hidePageSize]="true"
+	[showFirstLastButtons]="true"
+	[length]="totalElements"
+	aria-label="Select page"
+></mat-paginator>
+<div class="text-center my-4">
+	<app-loading-spinner *ngIf="loading"></app-loading-spinner>
+</div>
