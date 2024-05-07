@@ -6,7 +6,7 @@ RUN npm install
 COPY . ./
 
 RUN npm run build -c production
-CMD ["node", "/app/dist/frontend/server/server.mjs"]
+CMD ["node", "/app/dist/book-social/server/server.mjs"]
 
 #Web server
 FROM nginx:alpine

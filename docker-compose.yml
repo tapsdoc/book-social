@@ -48,15 +48,15 @@ services:
       - postgres
     restart: unless-stopped
 
-  bsn-ui:
-    build: ./frontend
-    container_name: bsn-ui
-    image: book-social-ui/book-social-ui:1.0.0
-    ports:
-      - "8080:80"
-      - "4000:4000"
-    depends_on:
-      - bsn-api
+#  bsn-ui:
+#    build: ./frontend
+#    container_name: bsn-ui
+#    image: book-social-ui/book-social-ui:1.0.0
+#    ports:
+#      - "8080:80"
+#      - "4000:4000"
+#    depends_on:
+#      - bsn-api
 
 volumes:
   postgres:
