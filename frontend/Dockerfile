@@ -4,7 +4,9 @@ COPY package*.json ./
 RUN npm install -g @angular/cli
 RUN npm install
 COPY . ./
-RUN npm run build
+
+RUN npm run build -c production
+CMD ["node", "/app/dist/frontend/server/server.mjs"]
 
 #Web server
 FROM nginx:alpine
