@@ -59,7 +59,13 @@ public class AppConfig {
 		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		final CorsConfiguration config = new CorsConfiguration();
 		config.setAllowCredentials(true);
-		config.setAllowedOrigins(List.of("http://localhost:4200", "http://localhost:8080"));
+		config.setAllowedOrigins(List.of(
+			"http://84.8.142.86:8090",
+			"http://84.8.142.86:8000",
+			"http://84.8.142.86:4200",
+			"http://localhost:4200",
+			"http://localhost:8080",
+			"http://localhost:8000"));
 		config.setAllowedHeaders(List.of(
 			HttpHeaders.ORIGIN,
 			HttpHeaders.CONTENT_TYPE,

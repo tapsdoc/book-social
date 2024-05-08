@@ -15,7 +15,7 @@ public class GlobalExceptionHandler {
 	
 	@ExceptionHandler(BadCredentialsException.class)
 	public ResponseEntity<?> badCredentialsException() {
-		return createHttpResponse(HttpStatus.FORBIDDEN, "Username / password incorrect. Please try again");
+		return createHttpResponse(HttpStatus.FORBIDDEN, "Incorrect username or password");
 	}
 	
 	@ExceptionHandler(DisabledException.class)
