@@ -1,8 +1,9 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "Book Social Network",
-    "description": "Open API Spec for book social network application",
+    "title": "OpenApi specification - Tapiwa Chiremba",
+    "description": "OpenApi documentation for Book Social Network App",
+    "termsOfService": "Terms of service",
     "contact": {
       "name": "Tapiwa Chiremba",
       "url": "https://tapsdoc.co.zw",
@@ -10,30 +11,30 @@
     },
     "license": {
       "name": "Licence name",
-      "url": "domain"
+      "url": "https://tapsdoc.co.zw"
     },
     "version": "1.0"
   },
   "servers": [
     {
       "url": "http://localhost:8090/api/v1",
-      "description": "Local env"
+      "description": "Local ENV"
     },
     {
-      "url": "domain",
-      "description": "Production env"
+      "url": "https://tapsdoc.co.zw",
+      "description": "PROD ENV"
     }
   ],
   "security": [
     {
-      "Bearer": []
+      "bearerAuth": []
     }
   ],
   "paths": {
-    "/feeback": {
+    "/feedback": {
       "post": {
         "tags": [
-          "Feedbacks"
+          "Feedback"
         ],
         "operationId": "saveFeedback",
         "requestBody": {
@@ -52,8 +53,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "integer",
-                  "format": "int64"
+                  "type": "object"
                 }
               }
             }
@@ -164,7 +164,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BookResponse"
+                  "type": "object"
                 }
               }
             }
@@ -505,10 +505,40 @@
         }
       }
     },
-    "/feeback/book/{book-id}": {
+    "/file-upload/file": {
       "get": {
         "tags": [
-          "Feedbacks"
+          "File Upload"
+        ],
+        "operationId": "getURl",
+        "parameters": [
+          {
+            "name": "objectName",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/feedback/book/{book-id}": {
+      "get": {
+        "tags": [
+          "Feedback"
         ],
         "operationId": "findAllFeedbacksByBook",
         "parameters": [
@@ -848,47 +878,6 @@
           }
         }
       },
-      "BookResponse": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "title": {
-            "type": "string"
-          },
-          "author": {
-            "type": "string"
-          },
-          "isbn": {
-            "type": "string"
-          },
-          "owner": {
-            "type": "string"
-          },
-          "synopsis": {
-            "type": "string"
-          },
-          "cover": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "byte"
-            }
-          },
-          "rate": {
-            "type": "number",
-            "format": "double"
-          },
-          "sharable": {
-            "type": "boolean"
-          },
-          "archived": {
-            "type": "boolean"
-          }
-        }
-      },
       "RegistrationRequest": {
         "required": [
           "email",
@@ -988,6 +977,9 @@
             "type": "integer",
             "format": "int64"
           },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
+          },
           "size": {
             "type": "integer",
             "format": "int32"
@@ -1005,18 +997,15 @@
           "sort": {
             "$ref": "#/components/schemas/SortObject"
           },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
+          },
           "first": {
             "type": "boolean"
           },
           "last": {
             "type": "boolean"
-          },
-          "numberOfElements": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pageable": {
-            "$ref": "#/components/schemas/PageableObject"
           },
           "empty": {
             "type": "boolean"
@@ -1026,6 +1015,14 @@
       "PageableObject": {
         "type": "object",
         "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
           "offset": {
             "type": "integer",
             "format": "int64"
@@ -1033,18 +1030,10 @@
           "sort": {
             "$ref": "#/components/schemas/SortObject"
           },
-          "pageSize": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pageNumber": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "unpaged": {
+          "paged": {
             "type": "boolean"
           },
-          "paged": {
+          "unpaged": {
             "type": "boolean"
           }
         }
@@ -1052,10 +1041,10 @@
       "SortObject": {
         "type": "object",
         "properties": {
-          "empty": {
+          "sorted": {
             "type": "boolean"
           },
-          "sorted": {
+          "empty": {
             "type": "boolean"
           },
           "unsorted": {
@@ -1089,6 +1078,9 @@
             "type": "integer",
             "format": "int64"
           },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
+          },
           "size": {
             "type": "integer",
             "format": "int32"
@@ -1106,20 +1098,54 @@
           "sort": {
             "$ref": "#/components/schemas/SortObject"
           },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
+          },
           "first": {
             "type": "boolean"
           },
           "last": {
             "type": "boolean"
           },
-          "numberOfElements": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pageable": {
-            "$ref": "#/components/schemas/PageableObject"
-          },
           "empty": {
+            "type": "boolean"
+          }
+        }
+      },
+      "BookResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "title": {
+            "type": "string"
+          },
+          "author": {
+            "type": "string"
+          },
+          "isbn": {
+            "type": "string"
+          },
+          "owner": {
+            "type": "string"
+          },
+          "synopsis": {
+            "type": "string"
+          },
+          "cover": {
+            "type": "string"
+          },
+          "rate": {
+            "type": "number",
+            "format": "double"
+          },
+          "sharable": {
+            "type": "boolean"
+          },
+          "archived": {
             "type": "boolean"
           }
         }
@@ -1163,6 +1189,9 @@
             "type": "integer",
             "format": "int64"
           },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
+          },
           "size": {
             "type": "integer",
             "format": "int32"
@@ -1180,18 +1209,15 @@
           "sort": {
             "$ref": "#/components/schemas/SortObject"
           },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
+          },
           "first": {
             "type": "boolean"
           },
           "last": {
             "type": "boolean"
-          },
-          "numberOfElements": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pageable": {
-            "$ref": "#/components/schemas/PageableObject"
           },
           "empty": {
             "type": "boolean"
@@ -1208,6 +1234,9 @@
           "totalElements": {
             "type": "integer",
             "format": "int64"
+          },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
           },
           "size": {
             "type": "integer",
@@ -1226,18 +1255,15 @@
           "sort": {
             "$ref": "#/components/schemas/SortObject"
           },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
+          },
           "first": {
             "type": "boolean"
           },
           "last": {
             "type": "boolean"
-          },
-          "numberOfElements": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pageable": {
-            "$ref": "#/components/schemas/PageableObject"
           },
           "empty": {
             "type": "boolean"
@@ -1246,11 +1272,11 @@
       }
     },
     "securitySchemes": {
-      "Bearer": {
+      "bearerAuth": {
         "type": "http",
-        "description": "JWT",
+        "description": "JWT auth description",
         "in": "header",
-        "scheme": "Bearer token",
+        "scheme": "bearer",
         "bearerFormat": "JWT"
       }
     }

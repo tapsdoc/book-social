@@ -12,7 +12,6 @@ public interface BookService {
 	
 	BookResponse addBook(Authentication connectedUser, BookRequest request) throws Exception;
 	BookResponse findBook(Long id);
-	List<Book> findAllBooks(Authentication connectedUser);
 	Page<BookResponse> findAllBooks(Authentication connectedUser, int page) throws Exception;
 	Page<BookResponse> findAllBooksByOwner(Authentication connectedUser, int page) throws Exception;
 	Page<BorrowedBookResponse> findAllBorrowedBooksByOwner(Authentication connectedUser, int page);

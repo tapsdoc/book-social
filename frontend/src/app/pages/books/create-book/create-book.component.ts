@@ -5,6 +5,7 @@ import { SnackBarComponent } from '../../../components/snack-bar/snack-bar.compo
 import { BookResponse } from '../../../services/models/book-response';
 import { Subscription } from 'rxjs';
 import { BookService } from '../../../services/services/book.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
 	selector: 'app-create-book',
@@ -12,7 +13,8 @@ import { BookService } from '../../../services/services/book.service';
 	imports: [
 		ReactiveFormsModule,
 		CommonModule,
-		SnackBarComponent
+		SnackBarComponent,
+		MatFormFieldModule
 	],
 	templateUrl: './create-book.component.html',
 	styleUrl: './create-book.component.css'
@@ -24,10 +26,10 @@ export class CreateBookComponent implements OnInit, OnDestroy {
 	protected picture!: string;
 	protected selectedFile: any;
 	protected form!: FormGroup;
-	@Input() editMode = false;
+	@Input() editMode= false;
 	
-	@Input() isOpen = false;
-	@Output() showModal = new EventEmitter<boolean>();
+	@Input() isOpen= false;
+	@Output() showModal= new EventEmitter<boolean>();
 	
 	book!: BookResponse;
 	private subs!: Subscription;
@@ -49,18 +51,17 @@ export class CreateBookComponent implements OnInit, OnDestroy {
 						this.picture = book.cover;
 				}
 			});
-		console.log(this.editMode);
 		this.initForm();
 	}
 	
 	onFileSelected(event: Event) {
-		const inputElement = event.target as HTMLInputElement;
+		const inputElement= event.target as HTMLInputElement;
 		if (inputElement.files && inputElement.files.length > 0) {
 			this.selectedFile = inputElement.files[0];
 			
 			if (this.selectedFile) {
-				const reader = new FileReader();
-				reader.onload = () => {
+				const reader= new FileReader();
+				reader.onload = ()=> {
 					this.picture = reader.result as string;
 				}
 				reader.readAsDataURL(this.selectedFile);
@@ -69,36 +70,56 @@ export class CreateBookComponent implements OnInit, OnDestroy {
 	}
 	
 	onSubmit() {
-		this.bookService.addBook({ body: this.form.value })
-			.subscribe({
-				next: (book) => {
-					this.form.reset();
-					this.editMode = false;
-					this.bookService.fileUpload({
-						bookId: book.id as number,
-						body: {
-							file: this.selectedFile
+		
+		if (this.editMode) {
+			this.bookService.updateSharableStatus({ bookId: this.book.id as number })
+				.subscribe({
+					next: () => {
+						this.book.sharable = !this.book.sharable;
+						if (this.selectedFile) {
+							this.bookService.fileUpload({
+								bookId: this.book.id as number,
+								body: {
+									file: this.selectedFile
+								}
+							}).subscribe();
 						}
-					})
-					.subscribe({
-						next: () => {
-							this.type = 'success';
-							this.message = 'File uploaded successfully';
-						},
-						error: err => {
-							this.type = 'error';
-							this.message = err.error.message;
-							console.log(err);
-						}
-					})
-				},
+					},
 				error: err => {
-					this.editMode = false;
-					this.type = 'error';
+					this.type = 'error'
 					this.message = err.error.message;
 					console.log(err);
 				}
 			});
+		} else {
+			this.bookService.addBook({ body: this.form.value })
+				.subscribe({
+					next: (book) => {
+						this.form.reset();
+						this.editMode = false;
+						this.type = 'success';
+						this.message = 'Book added successfully';
+						
+						if (this.selectedFile) {
+							this.bookService.fileUpload({
+								bookId: book.id as number,
+								body: {
+									file: this.selectedFile
+								}
+							}).subscribe();
+						}
+					},
+					error: err => {
+						this.editMode = false;
+						this.type = 'error';
+						this.message = "An error occurred!";
+						console.log(err);
+					}
+				});
+		}
+		
+		this.type = '';
+		this.message = '';
 		this.toggle();
 	}
 	
@@ -124,7 +145,6 @@ export class CreateBookComponent implements OnInit, OnDestroy {
 	
 	onClose() {
 		this.editMode = false;
-		console.log(this.editMode);
 		this.toggle();
 		this.form.reset();
 	}

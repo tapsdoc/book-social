@@ -62,12 +62,11 @@ export class MyBooksComponent implements OnInit, OnDestroy {
 		.subscribe({
 			next: () => {
 				book.archived = !book.archived;
-				this.type = 'success';
-				this.message = 'Book archived!';
 			},
 			error: err => {
 				this.type = 'error'
 				this.message = err.error.message;
+				console.log(err);
 			},
 		});
 		this.type = '';
@@ -79,11 +78,11 @@ export class MyBooksComponent implements OnInit, OnDestroy {
 			.subscribe({
 				next: () => {
 					book.sharable = !book.sharable;
-					this.message = 'Book shared!';
 				},
 				error: err => {
 					this.type = 'error'
 					this.message = err.error.message;
+					console.log(err);
 				}
 			});
 		this.type = '';
@@ -105,7 +104,6 @@ export class MyBooksComponent implements OnInit, OnDestroy {
 					this.pageSize = res.size as number;
 					this.type = 'success';
 					this.message = 'Books loaded successfully!';
-					
 				},
 				error: (err) => {
 					this.type = 'error'

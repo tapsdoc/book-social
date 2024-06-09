@@ -25,7 +25,7 @@ import { LoadingSpinnerComponent } from '../../../components/loading-spinner/loa
 export class LoginComponent implements OnInit {
 	
    protected form!: FormGroup;
-	protected loading = false;
+	protected loading= false;
 	protected type!: string;
 	protected message!: string
 	
@@ -38,11 +38,11 @@ export class LoginComponent implements OnInit {
 		this.form = new FormGroup<any>({
 			email: new FormControl('', Validators.required),
 			password: new FormControl('', Validators.required)
-		})
+		});
 	}
 	
 	onSubmit() {
-		this.loading = true;
+		this.loading = !this.loading;
 		const request: AuthRequest = this.form.value;
 		
 		this.authService.login({ body: request })
@@ -50,15 +50,19 @@ export class LoginComponent implements OnInit {
 				next: () => {
 					this.form.reset();
 					this.router.navigate(['/books']).then();
-					
 				},
 				error: (err) => {
 					this.type = 'error'
-					this.message = err.error.message;
+					if (err.error.message == 'Failed to fetch')
+						this.message = 'An error occurred. Please try again';
+					else
+						this.message = err.error.message;
+				},
+				complete: () => {
+					this.type = '';
+					this.message = '';
+					this.loading = false;
 				}
 			});
-		this.type = '';
-		this.message = '';
-		this.loading = false;
 	}
 }

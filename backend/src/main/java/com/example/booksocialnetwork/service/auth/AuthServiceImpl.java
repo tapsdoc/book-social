@@ -20,6 +20,7 @@ import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,6 +37,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthServiceImpl implements AuthService {
 	
 	private final UserRepository userRepository;
@@ -182,16 +184,17 @@ public class AuthServiceImpl implements AuthService {
 	
 	private String generateAndSaveActivationCode(User user) {
 		
-		String generateActivationCode = generateActivationCode();
+		String activationCode = generateActivationCode();
 		var code = ActivationCode.builder()
-			.token(generateActivationCode)
+			.token(activationCode)
 			.createdAt(LocalDateTime.now())
 			.expiresAt(LocalDateTime.now().plusHours(1))
 			.user(user)
 			.build();
 		
 		codeRepository.save(code);
-		return generateActivationCode;
+		log.info(activationCode);
+		return activationCode;
 	}
 	
 	private String generateActivationCode() {

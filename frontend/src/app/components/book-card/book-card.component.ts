@@ -35,7 +35,7 @@ export class BookCardComponent implements OnInit {
 		if (this.book.cover) {
 			return this.book.cover;
 		} else
-			return 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+			return '/assets/photo-1544947950-fa07a98d237f.avif';
 	}
 	
 	onShowDetails() {

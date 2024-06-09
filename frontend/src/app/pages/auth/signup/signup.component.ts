@@ -30,8 +30,7 @@ export class SignupComponent implements OnInit {
    constructor(
       private authService: AuthenticationService,
       private router: Router,
-   ) {
-   }
+   ) {  }
 	
 	ngOnInit(): void {
 		this.form = new FormGroup<any>({
@@ -73,11 +72,17 @@ export class SignupComponent implements OnInit {
 				this.form.reset();
 				this.router.navigate(['/activate-account']).then();
 			},
-			error: (err) => {
-				this.type = 'error';
-				this.message = err.error.message;
-				this.loading = false;
-			}
+	      error: (err) => {
+		      this.type = 'error'
+		      if (err.error.message == 'Failed to fetch')
+			      this.message = 'An error occurred. Please try again';
+		      else
+			      this.message = err.error.message;
+				console.log(err)
+	      },
+	      complete: () => {
+		      this.loading = false;
+	      }
 		});
 		this.type = '';
 		this.message = '';

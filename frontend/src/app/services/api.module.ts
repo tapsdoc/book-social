@@ -4,10 +4,11 @@ import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core
 import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
-import { FeedbacksService } from './services/feedbacks.service';
+import { FeedbackService } from './services/feedback.service';
 import { BookService } from './services/book.service';
 import { AuthenticationService } from './services/authentication.service';
 import { UserService } from './services/user.service';
+import { FileUploadService } from './services/file-upload.service';
 
 /**
  * Module that provides all services and configuration.
@@ -17,10 +18,11 @@ import { UserService } from './services/user.service';
   exports: [],
   declarations: [],
   providers: [
-    FeedbacksService,
+    FeedbackService,
     BookService,
     AuthenticationService,
     UserService,
+    FileUploadService,
     ApiConfiguration
   ],
 })

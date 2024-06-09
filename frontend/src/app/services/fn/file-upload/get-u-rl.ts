@@ -6,21 +6,20 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { BookRequest } from '../../models/book-request';
 
-export interface AddBook$Params {
-      body: BookRequest
+export interface GetURl$Params {
+  objectName: string;
 }
 
-export function addBook(http: HttpClient, rootUrl: string, params: AddBook$Params, context?: HttpContext): Observable<StrictHttpResponse<{
+export function getURl(http: HttpClient, rootUrl: string, params: GetURl$Params, context?: HttpContext): Observable<StrictHttpResponse<{
 }>> {
-  const rb = new RequestBuilder(rootUrl, addBook.PATH, 'post');
+  const rb = new RequestBuilder(rootUrl, getURl.PATH, 'get');
   if (params) {
-    rb.body(params.body, 'application/json');
+    rb.query('objectName', params.objectName, {});
   }
 
   return http.request(
-    rb.build({ responseType: 'json', accept: 'application/json', context })
+    rb.build({ responseType: 'blob', accept: '*/*', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
@@ -30,4 +29,4 @@ export function addBook(http: HttpClient, rootUrl: string, params: AddBook$Param
   );
 }
 
-addBook.PATH = '/books/add';
+getURl.PATH = '/file-upload/file';

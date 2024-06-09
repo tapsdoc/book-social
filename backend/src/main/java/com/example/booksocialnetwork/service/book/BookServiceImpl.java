@@ -4,9 +4,9 @@ import com.example.booksocialnetwork.domain.Book;
 import com.example.booksocialnetwork.domain.BookTransactionHistory;
 import com.example.booksocialnetwork.domain.User;
 import com.example.booksocialnetwork.exception.OperationNotPermittedException;
-import com.example.booksocialnetwork.service.files.FileUploadService;
 import com.example.booksocialnetwork.repository.BookRepository;
 import com.example.booksocialnetwork.repository.BookTransactionHistoryRepository;
+import com.example.booksocialnetwork.service.files.FileUploadService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,7 +17,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -53,19 +52,15 @@ public class BookServiceImpl implements BookService {
 	}
 	
 	@Override
-	public List<Book> findAllBooks(Authentication connectedUser) {
-		return bookRepository.findAll();
-	}
-	
-	@Override
 	public Page<BookResponse> findAllBooks(Authentication connectedUser, int page) throws Exception {
+		User user = ((User) connectedUser.getPrincipal());
 		Pageable request = PageRequest.of(
 			page,
 			4,
 			Sort.by("createdAt").descending()
 		);
 		
-		Page<Book> books = bookRepository.findAll(request);
+		Page<Book> books = bookRepository.findAllDisplayableBooks(request, user.getId());
 		return getBookResponses(books);
 	}
 	
@@ -205,8 +200,8 @@ public class BookServiceImpl implements BookService {
 			throw new OperationNotPermittedException("Book is already returned");
 		
 		User user = ((User) connectedUser.getPrincipal());
-		if (Objects.equals(book.getUser().getId(), user.getId()))
-			throw new OperationNotPermittedException("You cannot return your own book");
+		if (!Objects.equals(book.getUser().getId(), user.getId()))
+			throw new OperationNotPermittedException("You cannot approve this return");
 		
 		var transactionHistory = historyRepository.findByBookAndOwner(bookId, user.getId())
 			.orElseThrow(() -> new OperationNotPermittedException("The book has not been returned"));
@@ -214,11 +209,10 @@ public class BookServiceImpl implements BookService {
 		return historyRepository.save(transactionHistory).getId();
 	}
 	
-	private Book getBook(Long id) throws Exception {
+	private Book getBook(Long id) {
 		var book = bookRepository.findById(id)
 			.orElseThrow(() -> new EntityNotFoundException("Book not found"));
-		var image = uploadService.getFileObject(book.getImageUrl());
-		book.setImageUrl(image);
+//		uploadService.getFileObject(book.getImageUrl());
 		return book;
 	}
 	

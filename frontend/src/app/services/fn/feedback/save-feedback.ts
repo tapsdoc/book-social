@@ -6,15 +6,15 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { BookRequest } from '../../models/book-request';
+import { FeedbackRequest } from '../../models/feedback-request';
 
-export interface AddBook$Params {
-      body: BookRequest
+export interface SaveFeedback$Params {
+      body: FeedbackRequest
 }
 
-export function addBook(http: HttpClient, rootUrl: string, params: AddBook$Params, context?: HttpContext): Observable<StrictHttpResponse<{
+export function saveFeedback(http: HttpClient, rootUrl: string, params: SaveFeedback$Params, context?: HttpContext): Observable<StrictHttpResponse<{
 }>> {
-  const rb = new RequestBuilder(rootUrl, addBook.PATH, 'post');
+  const rb = new RequestBuilder(rootUrl, saveFeedback.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
   }
@@ -30,4 +30,4 @@ export function addBook(http: HttpClient, rootUrl: string, params: AddBook$Param
   );
 }
 
-addBook.PATH = '/books/add';
+saveFeedback.PATH = '/feedback';

@@ -29,7 +29,7 @@
 			<figure class="relative h-auto max-w-xs transition-all duration-300 cursor-pointer filter">
 				<img
 					class="rounded-lg"
-					[src]="picture || 'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/content-gallery-3.png'"
+					[src]="picture || '/assets/photo-1544947950-fa07a98d237f.avif'"
 					alt="image description">
 			</figure>
 			<input
@@ -39,7 +39,6 @@
 				id="file_input"
 				type="file"
 				accept="image/*"
-				[disabled]="editMode"
 			>
 			<p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG or AFIF (MAX. 800x400px).</p>
 			<!-- Modal body -->
@@ -82,7 +81,9 @@
 					</div>
 					<div class="sm:col-span-2">
 						<textarea
+							#input
 							formControlName="synopsis"
+							maxlength="255"
 							id="synopsis"
 							rows="4"
 							class="block p-2.5 w-full read-only:cursor-not-allowed disabled:cursor-not-allowed text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -90,6 +91,7 @@
 							[value]="editMode ? book.synopsis : ''"
 							[readonly]="editMode"
 						></textarea>
+						<mat-hint align="end">{{ input.value.length }}/255</mat-hint>
 					</div>
 					<div>
 						<label class="inline-flex items-center cursor-pointer">

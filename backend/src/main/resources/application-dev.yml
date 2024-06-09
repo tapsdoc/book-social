@@ -11,26 +11,27 @@ spring:
   jpa:
     database: postgresql
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
         show_sql: true
         format_sql: true
 
   mail:
-    host: smtp.gmail.com
-    port: 465
-    username: tapsdoc23@gmail.com
-    password: yjzbxqlxcyjcjgqn
+    host: localhost
+    port: 1025
+    username: tapsdoc
+    password: taps1234
     properties:
       mail:
         smtp:
-          auth: true
-          ssl:
-            enable: true
-            trust: "*"
-          starttls:
-            enable: true
+          trust: "*"
+        auth: true
+        starttls:
+          enable: true
+        connectiontimeout: 5000
+        timeout: 3000
+        writetimeout: 5000
     protocol: smtp
 
 application:

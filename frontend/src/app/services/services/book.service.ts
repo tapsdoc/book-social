@@ -42,7 +42,7 @@ import { UpdateSharableStatus$Params } from '../fn/book/update-sharable-status';
 @Injectable({ providedIn: 'root' })
 export class BookService extends BaseService {
 	
-	edit = new EventEmitter<BookResponse>();
+	edit  = new EventEmitter<BookResponse>();
 	
 	constructor(config: ApiConfiguration, http: HttpClient) {
 		super(config, http);
@@ -107,7 +107,7 @@ export class BookService extends BaseService {
 	 *
 	 * This method sends `application/json` and handles request body of type `application/json`.
 	 */
-	addBook$Response(params: AddBook$Params, context?: HttpContext): Observable<StrictHttpResponse<BookResponse>> {
+	addBook$Response(params: AddBook$Params, context?: HttpContext): Observable<StrictHttpResponse<{}>> {
 		return addBook(this.http, this.rootUrl, params, context);
 	}
 	
@@ -117,9 +117,9 @@ export class BookService extends BaseService {
 	 *
 	 * This method sends `application/json` and handles request body of type `application/json`.
 	 */
-	addBook(params: AddBook$Params, context?: HttpContext): Observable<BookResponse> {
+	addBook(params: AddBook$Params, context?: HttpContext): Observable<any> {
 		return this.addBook$Response(params, context).pipe(
-			map((r: StrictHttpResponse<BookResponse>): BookResponse => r.body)
+			map((r: StrictHttpResponse<{}>): {} => r.body)
 		);
 	}
 	

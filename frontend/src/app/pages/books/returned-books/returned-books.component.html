@@ -1,1 +1,97 @@
-<p>retuned-books works!</p>
+<div *ngIf="type !== ''" class="flex mt-10 justify-center fixed top-0 left-3 w-full">
+	<app-snack-bar
+		[type]="type"
+		[message]="message"
+	></app-snack-bar>
+</div>
+
+
+<section class="bg-gray-50 dark:bg-gray-900 py-3 sm:py-5">
+	<div class="px-4 mx-auto max-w-screen-2xl lg:px-12">
+		<div class="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
+			<div class="flex flex-col px-4 py-3 space-y-3 lg:flex-row lg:items-center lg:justify-between lg:space-y-0 lg:space-x-4">
+				<div class="flex items-center flex-1 space-x-4">
+					<p>
+						<span class="text-xl md:text-2xl text-gray-900">All Returned Books: </span>
+						<span class="text-xl dark:text-white">{{ totalElements }}</span>
+					</p>
+				</div>
+			</div>
+			<div *ngIf="!loading" class="overflow-x-auto">
+				<table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+					<thead class="text-md font-normal text-gray-900 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+					<tr>
+						<th scope="col" class="p-4"></th>
+						<th scope="col" class="px-4 py-3">ISBN</th>
+						<th scope="col" class="px-4 py-3 ">Title</th>
+						<th scope="col" class="px-4 py-3">Author</th>
+						<th scope="col" class="px-4 py-3 ">Rate</th>
+						<th scope="col" class="px-4 py-3">Approve Return</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr
+						*ngFor="let book of books"
+						class="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 md:text-lg">
+						<td class="w-4 px-4 py-5">
+							<div class="flex items-center">
+								<input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+								<label for="checkbox-table-search-1" class="sr-only">checkbox</label>
+							</div>
+						</td>
+						<td class="px-4 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+							{{ book.isbn }}
+						</td>
+						<td class="px-4 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+							{{ book.title }}
+						</td>
+						<td class="px-4 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+							{{ book.author}}
+						</td>
+						<td class="px-4 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+							<div class="flex items-center">
+								<app-star-rating
+									[rating]="book.rate!"
+									[readonly]="true"
+								></app-star-rating>
+							</div>
+						</td>
+						<td class="px-4 py-6 font-medium flex justify-center md:justify-start md:ml-16 text-gray-900 whitespace-nowrap dark:text-white">
+							<button
+								type="button"
+								(click)="approveReturn(book)"
+								class="cursor-pointer font-normal text-lg text-center text-blue-600 dark:text-blue-500 hover:underline">
+								<div class="flex justify-center items-center w-full" *ngIf="book.returnApproved">
+									<svg class="w-5 h-5 text-green-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
+										<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
+									</svg>
+								</div>
+								<div class="flex justify-center items-center w-full" *ngIf="!book.returnApproved">
+									<svg class="w-4 h-4 text-red-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+										<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+									</svg>
+								</div>
+							</button>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+			<mat-paginator
+				*ngIf="!loading && totalPages > 1"
+				class="justify-end items-end px-4 mx-4"
+				(page)="handlePageEvent($event)"
+				[pageIndex]="pageIndex"
+				[pageSize]="pageSize"
+				[hidePageSize]="true"
+				[showFirstLastButtons]="true"
+				[length]="totalElements"
+				aria-label="Select page"
+			></mat-paginator>
+			<div class="text-center my-4">
+				<app-loading-spinner *ngIf="loading"></app-loading-spinner>
+			</div>
+		</div>
+	</div>
+</section>
+
